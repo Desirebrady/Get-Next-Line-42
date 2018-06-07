@@ -2,7 +2,7 @@
 
 static char  *readline(const int fd, char *buff int *ret)
 {
-	char 	tenp[BUFF_SIZE + 1];
+	char 	temp[BUFF_SIZE + 1];
 	char	temp2;
 
 	*ret = read(fd, tmp, BUFF_SIZE);
