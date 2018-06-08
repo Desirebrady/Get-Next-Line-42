@@ -3,31 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/04 10:05:30 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/10 13:05:20 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/24 13:23:49 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/29 12:13:50 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned int	i;
-	char			*keep;
-	unsigned char	*s1;
-	unsigned char	*s2;
+	char		*dp;
+	const char	*sp;
+	size_t		i;
 
-	s1 = dst;
-	s2 = (unsigned char *)src;
 	i = 0;
-	keep = (void*)malloc(sizeof(char) * ft_strlen(dst));
-	keep = dst;
-	while (i < n)
+	sp = src;
+	dp = dest;
+	while (n--)
 	{
-		s1[i] = s2[i];
+		dp[i] = sp[i];
 		i++;
 	}
-	return (keep);
+	return (dest);
 }

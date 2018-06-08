@@ -3,34 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/06 17:21:40 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/09 12:38:22 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/24 13:23:35 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/24 14:52:41 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int					ft_memcmp(const void *s1, const void *s2, size_t n)
+int		ft_memcmp(const void *str1, const void *str2, size_t n)
 {
-	int				diff;
-	unsigned int	counter;
-	int				stop;
-	char			*s1_;
-	char			*s2_;
+	const unsigned char *p1;
+	const unsigned char *p2;
 
-	diff = 0;
-	stop = 0;
-	counter = 0;
-	s1_ = (char *)s1;
-	s2_ = (char *)s2;
-	while (counter < n && !stop)
+	p1 = str1;
+	p2 = str2;
+	while (n--)
 	{
-		diff += (s1_[counter] - s2_[counter]);
-		if (s2_[counter] != s1_[counter])
-			stop = 1;
-		counter++;
+		if (*p1 != *p2)
+			return ((unsigned int)*p1 - (unsigned int)*p2);
+		else
+		{
+			p1++;
+			p2++;
+		}
 	}
-	return (diff);
+	return (0);
 }

@@ -3,49 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/11 17:21:11 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/11 17:21:27 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/24 13:32:39 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/29 16:32:27 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_inc_counters(char **dest_copy, size_t *counter)
+size_t			ft_strlcat(char *dst, const char *src, size_t size)
 {
-	while (**dest_copy != '\0' && *counter != 0)
-	{
-		(*counter)--;
-		(*dest_copy)++;
-	}
-}
+	size_t		i;
+	size_t		dstlength;
+	size_t		srclength;
 
-size_t		ft_strlcat(char *dst, const char *src, size_t size)
-{
-	char		*dest_copy;
-	const char	*src_copy;
-	size_t		counter;
-	size_t		dest_len;
-
-	dest_copy = dst;
-	src_copy = src;
-	counter = size;
-	ft_inc_counters(&dest_copy, &counter);
-	dest_len = dest_copy - dst;
-	counter = size - dest_len;
-	if (counter == 0)
-		return (ft_strlen(src_copy) + dest_len);
-	while (*src_copy != '\0')
+	i = 0;
+	dstlength = ft_strlen(dst);
+	srclength = ft_strlen(src);
+	if (size <= dstlength)
+		return (srclength + size);
+	while ((dst[i] != '\0') && i < (size - 1))
+		i++;
+	while (*src && i < (size - 1))
 	{
-		if (counter != 1)
-		{
-			*dest_copy = *src_copy;
-			dest_copy++;
-			counter--;
-		}
-		src_copy++;
+		dst[i] = *src;
+		i++;
+		src++;
 	}
-	*dest_copy = '\0';
-	return ((src_copy - src) + dest_len);
+	dst[i] = '\0';
+	return (dstlength + srclength);
 }

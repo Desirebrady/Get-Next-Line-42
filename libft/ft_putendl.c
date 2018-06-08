@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/07 14:30:11 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/09 12:41:17 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/24 13:25:00 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/24 13:25:08 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	ft_putendl(char const *s)
 {
 	ft_putstr(s);
-	ft_putchar('\0');
+	ft_putchar('\n');
 }

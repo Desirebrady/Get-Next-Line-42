@@ -3,47 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/12 15:28:05 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/12 17:32:56 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/29 16:16:31 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/30 11:16:08 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-int		ft_isspace(int c)
+char		*ft_strtrim(char const *s)
 {
-	c = (unsigned char)c;
-	if ((c == ' ') || (c == '\n') || (c == '\t') || (c == '\v') || (c == '\f')
-			|| (c == '\r'))
-		return (1);
-	return (0);
-}
+	size_t	start;
+	size_t	len;
+	char	*str;
 
-char	*ft_strtrim(const char *s)
-{
-	int				i;
-	int				start;
-	unsigned int	c;
-	char			*scopy;
-
-	i = 0;
-	c = 0;
 	start = 0;
-	scopy = ft_strnew(ft_strlen(s));
-	while (c < ft_strlen(s))
-	{
-		if (!start && ft_isspace(s[c]))
-			c++;
-		else
-		{
-			start = 1;
-			scopy[i++] = s[c++];
-		}
-	}
-	while (ft_isspace(scopy[--i]))
-		scopy[i] = '\0';
-	return (scopy);
+	if (!s)
+		return (NULL);
+	while (((s[start] == ' ') || (s[start] == '\n')
+			|| (s[start] == '\t')))
+		start++;
+	len = ft_strlen(s);
+	while (((s[len - 1] == ' ') || (s[len - 1] == '\n')
+			|| (s[len - 1] == '\t')) && (s[start] != '\0'))
+		len--;
+	str = ft_strsub(s, start, len - start);
+	if (str)
+		return (str);
+	return (NULL);
 }

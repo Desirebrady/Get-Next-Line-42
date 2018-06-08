@@ -3,36 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/06 20:01:45 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/11 20:06:15 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/24 13:18:03 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/30 10:33:19 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+static int		exceeds_n(int n)
 {
-	int		i;
-	int		result;
-	int		minus;
+	if (n == -1)
+		return (0);
+	return (-1);
+}
 
-	i = 0;
-	minus = 1;
-	result = 0;
-	while ((str[i] == '\t') || (str[i] == '\v') || (str[i] == '\r') ||
-			(str[i] == '\n') || (str[i] == '\f') || (str[i] == ' '))
-		i++;
-	if (str[0] == '-')
-		minus = (-minus);
-	while (str[i])
+int				ft_atoi(const char *str)
+{
+	int			i;
+	int			lim;
+	int			n;
+
+	n = 1;
+	while ((*str >= '\t' && *str <= '\r') || *str == 32 || *str == '0')
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		while ((str[i] >= '0') && (str[i] <= '9'))
-			result = result * 10 + (str[i++] - '0');
-		if (i != 0)
-			return (result * minus);
-		i++;
+		if (*str == '-')
+			n = -1;
+		str++;
 	}
-	return (0);
+	lim = 0;
+	i = 0;
+	while (*str >= '0' && *str <= '9' && *str)
+	{
+		i = (i * 10) + (*str++ - '0');
+		if (lim >= 19)
+			return (exceeds_n(n));
+		lim++;
+	}
+	return (i * n);
 }

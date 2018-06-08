@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/03 20:38:44 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/05 12:10:20 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/29 15:35:16 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/29 15:35:23 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_tolower(int c)
+int		ft_tolower(int c)
 {
-	if ((c >= 65) && (c <= 90))
+	if (c >= 'A' && c <= 'Z')
+	{
 		c = c + 32;
-	return (c);
+		return (c);
+	}
+	else
+		return (c);
 }

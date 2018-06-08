@@ -3,83 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchib <nbouchib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/15 15:12:04 by nbouchib          #+#    #+#             */
-/*   Updated: 2014/11/15 15:29:03 by nbouchib         ###   ########.fr       */
+/*   Created: 2018/05/29 16:33:05 by dshumba           #+#    #+#             */
+/*   Updated: 2018/05/29 16:33:07 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	count_nb_words(char const *s, char c)
+static int	ft_len(char const *s, char c, int i)
 {
-	size_t		i;
-	size_t		j;
+	size_t tmp;
+
+	tmp = 0;
+	while (s[i] && s[i] != c)
+	{
+		tmp++;
+		i++;
+	}
+	return (tmp);
+}
+
+static int	ft_cont(char const *s, char c)
+{
+	int i;
+	int ok;
+	int count;
 
 	i = 0;
-	j = 0;
+	count = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
-			i++;
-		if (s[i] != c && s[i])
+		ok = 1;
+		while (s[i] && s[i] == c)
 		{
-			j++;
+			ok = 0;
 			i++;
-			while (s[i] != c && s[i])
-				i++;
 		}
+		while (s[i] && s[i] != c)
+		{
+			i++;
+			ok = 1;
+		}
+		if (ok)
+			count++;
 	}
-	return (j);
+	return (count);
 }
 
-static char		*add_word(size_t *i, char const *s, char c)
+char		**ft_strsplit(char const *s, char c)
 {
-	size_t		size;
-	size_t		j;
-	char		*word;
-
-	size = *i;
-	j = 0;
-	while (s[size] && s[size] != c)
-		size++;
-	word = ft_strnew(size - *i);
-	if (word)
-	{
-		while (*i < size)
-		{
-			word[j] = s[*i];
-			j++;
-			*i += 1;
-		}
-		return (word);
-	}
-	return (0);
-}
-
-char			**ft_strsplit(char const *s, char c)
-{
-	char		**tab;
-	size_t		i;
-	size_t		j;
+	char	**str;
+	size_t	len;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
-	tab = NULL;
-	if (s)
-		tab = (char **)malloc(sizeof(char *) * (count_nb_words(s, c) + 1));
-	if (tab)
+	len = 0;
+	if (!s)
+		return (NULL);
+	len = ft_cont(s, c);
+	if (!(str = (char**)malloc(sizeof(*str) * (len + 1))))
+		return (NULL);
+	i = 0;
+	while (len > 0)
 	{
-		while (j < count_nb_words(s, c))
-		{
-			while (s[i] == c)
-				i += 1;
-			if (s[i] != c && s[i])
-				tab[j++] = add_word(&i, s, c);
-		}
-		tab[j] = 0;
-		return (tab);
+		while (s[i] == c && s[i] != '\0')
+			i++;
+		str[j] = ft_strsub(s, i, ft_len(s, c, i));
+		j++;
+		i = i + ft_len(s, c, i);
+		len--;
 	}
-	return (0);
+	str[j] = 0;
+	return (str);
 }
