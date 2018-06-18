@@ -6,78 +6,62 @@
 /*   By: dshumba <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/08 09:21:46 by dshumba           #+#    #+#             */
-/*   Updated: 2018/06/11 12:40:00 by dshumba          ###   ########.fr       */
+/*   Updated: 2018/06/18 12:32:06 by dshumba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static	int			check_line(char **book, char **line)
+int					ft_new_line(char **s, char **line, int fd, int ret)
 {
-	char			*page_book;
-	char			*find_eof;
-	int				i;
+	char			*tmp;
+	int				len;
 
-	i = 0;
-	find_eof = *book;
-	while (find_eof[i] != '\n')
-		if (!find_eof[i++])
+	len = 0;
+	while (s[fd][len] != '\n' && s[fd][len] != '\0')
+		len++;
+	if (s[fd][len] == '\n')
+	{
+		*line = ft_strsub(s[fd], 0, len);
+		tmp = ft_strdup(s[fd] + len + 1);
+		free(s[fd]);
+		s[fd] = tmp;
+		if (s[fd][0] == '\0')
+			ft_strdel(&s[fd]);
+	}
+	else if (s[fd][len] == '\0')
+	{
+		*line = ft_strdup(s[fd]);
+		ft_strdel(&s[fd]);
+		if (ret == BUFF_SIZE)
 			return (0);
-	page_book = &find_eof[i];
-	*page_book = '\0';
-	*line = ft_strdup(*book);
-	*book = ft_strdup(page_book);
+	}
 	return (1);
 }
 
-static int			read_file(int fd, char *page, char **book, char **line)
+int					get_next_line(const int fd, char **line)
 {
+	static char		*s[255];
+	char			buf[BUFF_SIZE + 1];
+	char			*tmp;
 	int				ret;
-	char 			*page_book;
 
-	while ((ret = read(fd, page, BUFF_SIZE)) > 0)
+	if (fd < 0 || line == NULL)
+		return (-1);
+	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		page[ret] = '\0';
-		if (*book)
-		{
-			page_book = *book;
-			*book = ft_strjoin(page_book, page);
-			free(page_book);
-			page_book = NULL;
-		}
-		else
-			*book = ft_strdup(page);
-		if (check_line(book, line))
+		buf[ret] = '\0';
+		if (s[fd] == NULL)
+			s[fd] = ft_strnew(1);
+		tmp = ft_strjoin(s[fd], buf);
+		free(s[fd]);
+		s[fd] = tmp;
+		if (ft_strchr(buf, '\n'))
 			break ;
 	}
-	return (RET_VALUE(ret));
-}
-
-int					get_next_line(int const fd, char **line)
-{
-	static char 	*book[MAX_FD];
-	char			*page;
-	int				ret;
-	int				i;
-
-	if (!line || (fd < 0 || fd >= MAX_FD) || (read(fd, book[fd], 0) < 0) \
-		|| !(page = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)))
+	if (ret < 0)
 		return (-1);
-	if (book[fd])
-		if (check_line(&book[fd], line))
-			return (1);
-	i = 0;
-	while ( i < BUFF_SIZE)
-		page[i++] = '\0';
-	ret = read_file(fd, page, &book[fd], line);
-	free(page);
-	if (ret != 0 || book[fd] == NULL || book[fd][0] == '\0')
-	{
-		if(!ret && *line)
-			*line = NULL;
-		return (ret);
-	}
-	*line = book[fd];
-	book[fd] = NULL;
-	return (1);
+	else if (ret == 0 && (s[fd] == NULL || s[fd][0] == '\0'))
+		return (0);
+	return (ft_new_line(s, line, fd, ret));
 }
